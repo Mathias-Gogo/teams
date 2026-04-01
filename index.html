@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Team — Company Onboarding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,600;0,700;1,700&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #161616;
+            --border: #252525;
+            --accent: #c9a96e;
+            --text: #f0ece4;
+            --muted: #888;
+            --overlay: rgba(0, 0, 0, 0.82);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        header {
+            padding: 72px 64px 48px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .header-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .header-title {
+            font-family: 'Red Hat Display', sans-serif;
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 700;
+            line-height: 1.08;
+        }
+
+        .header-title span {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .header-sub {
+            margin-top: 20px;
+            font-size: 15px;
+            color: var(--muted);
+            font-weight: 300;
+            max-width: 480px;
+            line-height: 1.7;
+        }
+
+        .header-line {
+            position: absolute;
+            bottom: 0;
+            left: 64px;
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        main {
+            padding: 80px 64px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .team-section {
+            margin-bottom: 96px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .section-number {
+            font-family: 'Red Hat Display', sans-serif;
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--border);
+            line-height: 1;
+            user-select: none;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .section-name {
+            font-family: 'Red Hat Display', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2px;
+        }
+
+        .member-card {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            background: var(--surface);
+            aspect-ratio: 3/4;
+        }
+
+        .member-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(20%);
+            transition: transform 0.6s cubic-bezier(.25, .46, .45, .94), filter 0.4s ease;
+        }
+
+        .member-card:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+        }
+
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 28px 24px 24px;
+            transform: translateY(4px);
+            transition: transform 0.3s ease;
+        }
+
+        .member-card:hover .card-info {
+            transform: translateY(0);
+        }
+
+        .card-name {
+            font-family: 'Red Hat Display', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .card-title {
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .card-tap-hint {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .member-card:hover .card-tap-hint {
+            opacity: 1;
+        }
+
+        .team-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 80px 0;
+            position: relative;
+        }
+
+        .team-divider::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: var(--overlay);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: #191919;
+            border: 1px solid var(--border);
+            max-width: 860px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            overflow: hidden;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.35s cubic-bezier(.25, .46, .45, .94);
+            position: relative;
+        }
+
+        .modal-backdrop.open .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            filter: grayscale(10%);
+        }
+
+        .modal-body {
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .modal-team-label {
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-team-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--accent);
+            display: block;
+        }
+
+        .modal-name {
+            font-family: 'Red Hat Display', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.15;
+            margin-bottom: 6px;
+        }
+
+        .modal-title {
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-bottom: 28px;
+        }
+
+        .modal-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+            margin-bottom: 28px;
+        }
+
+        .modal-desc {
+            font-size: 14.5px;
+            color: #bbb;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: var(--border);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: #333;
+            color: var(--text);
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        footer strong {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .team-section {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .team-section:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 48px 24px 40px;
+            }
+
+            main {
+                padding: 60px 24px;
+            }
+
+            footer {
+                padding: 32px 24px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .modal {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-img {
+                min-height: 300px;
+                max-height: 300px;
+            }
+
+            .modal-body {
+                padding: 32px 28px;
+            }
+
+            .section-number {
+                font-size: 48px;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-eyebrow">Welcome Aboard</div>
+        <h1 class="header-title">Meet the <span>People</span><br>Behind the Work</h1>
+        <p class="header-sub">Two teams. One mission. Tap any profile to learn more about who you'll be working
+            alongside.</p>
+        <div class="header-line"></div>
+    </header>
+
+    <main id="main"></main>
+
+    <footer>
+        <span>Company Onboarding — Internal Use</span>
+        <span id="footerCount"></span>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+        <div class="modal">
+            <img id="modalImg" src="" alt="" class="modal-img" />
+            <div class="modal-body">
+                <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+                <div class="modal-team-label" id="modalTeam"></div>
+                <div class="modal-name" id="modalName"></div>
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-divider"></div>
+                <p class="modal-desc" id="modalDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─────────────────────────────────────────────
+        //  TEAM DATA — update names, titles, images,
+        //  and descriptions here. Add or remove members
+        //  freely; the page re-renders automatically.
+        // ─────────────────────────────────────────────
+        const teams = [
+            {
+                id: "team1",
+                label: "Team One",
+                name: "Project Development Team",
+                members: [
+                    {
+                        name: "Mathias Gogo",
+                        title: "Team Lead (CEO)",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1774995197/portrait_tvfqbk.jpg",
+                        desc: "Mathias Gogo is a Nigerian entrepreneur and frontend developer, CEO and co-founder of Mexuri, an AI multi-agent SaaS platform launching July 2026. He also built Paprd, a free business toolkit for Nigerian freelancers, and The Babylon Method, a personal finance PWA for money management and goal planning."
+                    },
+                    {
+                        name: "Chimela Chimela",
+                        title: "Asst. Team Lead",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1775079019/chimel_a_jybzoz.jpg",
+                        desc: "Chimela supports the Team Lead in coordinating development sprints, managing team workflows, and ensuring project milestones are met. He bridges communication between team members and keeps the team aligned on priorities."
+                    },
+                    {
+                        name: "Shambhavi Hiwase",
+                        title: "AI Engineer 1",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937716/shambhavi_b9zwbe.png",
+                        desc: "Shambhavi focuses on building and fine-tuning AI models that power the platform's intelligent features. She brings a strong foundation in machine learning and natural language processing to the team."
+                    },
+                    {
+                        name: "Wobo Bright",
+                        title: "AI Engineer 2",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/q_auto/f_auto/v1773937714/bright_kh5dlk.jpg",
+                        desc: "Wobo works alongside the AI engineering team to develop, test, and deploy intelligent systems. His focus is on model integration and ensuring AI features are robust, reliable, and production-ready."
+                    },
+                    {
+                        name: "Nicole Chimela",
+                        title: "UI/UX Designer",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1775078930/Screen_Shot_2026-04-01_at_10.27.44_PM_un8v6o.png",
+                        desc: "Nicole is responsible for the look, feel, and usability of the product. She translates complex requirements into clean, intuitive interfaces and ensures every user interaction is thoughtful and frictionless."
+                    }
+                ]
+            },
+            {
+                id: "team2",
+                label: "Team Two",
+                name: "Visibility Team",
+                members: [
+                    {
+                        name: "Jordan Akene",
+                        title: "Ops Lead (Co-founder)",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/q_auto/f_auto/v1775078519/jordan_pic_qzwjcb.jpg",
+                        desc: "Jordan Akene is a Nigerian entrepreneur and creative operator, Co-Founder and COO of Mexuri, an AI platform for solo founders launching July 2026. He also leads Johd Visuals, his personal design brand, bringing over five years of experience helping startups and businesses build compelling identities and visual experiences."
+                    },
+                    {
+                        name: "Juanita Igoche",
+                        title: "Asst. Team Lead",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1775078520/nita_ecakp0.jpg",
+                        desc: "Juanita supports the Visibility Team lead in planning and executing outreach initiatives. She keeps campaigns on track, manages team schedules, and ensures deliverables are completed to a high standard."
+                    },
+                    {
+                        name: "Rejoice Anusi",
+                        title: "Content & Brand",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/q_auto/f_auto/v1773937714/rejoice_llk4rb.jpg",
+                        desc: "Rejoice shapes the company's voice and brand identity. She creates compelling content across channels, maintains brand consistency, and develops narratives that resonate with the target audience."
+                    },
+                    {
+                        name: "Wingikarebi Akene",
+                        title: "Video Editor 1",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1775080075/Screen_Shot_2026-04-01_at_10.47.29_PM_s8wnt8.png",
+                        desc: "Wingikarebi brings the brand to life through video. He handles editing, colour grading, and post-production for all video content, ensuring every piece is polished and on-brand."
+                    },
+                    {
+                        name: "Joseph Anaele",
+                        title: "Graphics Design",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1775078904/Screen_Shot_2026-04-01_at_10.27.01_PM_agepna.png",
+                        desc: "Joseph is the team's visual designer, responsible for creating graphics, marketing materials, and visual assets. His work supports campaigns, social media, and product communication across all touchpoints."
+                    },
+                    {
+                        name: "Maxwell Ugorji",
+                        title: "Video Editor 2",
+                        img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1775078758/Screen_Shot_2026-04-01_at_10.24.52_PM_gxdzhw.png",
+                        desc: "Maxwell collaborates with the video team to produce and edit content that captures attention. He brings technical editing skill and a creative eye to every production, from short-form social clips to long-form features."
+                    }
+                ]
+            }
+        ];
+
+        // ─────────────────────────────────────────────
+        //  RENDER — no need to touch anything below
+        // ─────────────────────────────────────────────
+        function buildCard(member, teamName) {
+            const safeDesc = member.desc.replace(/"/g, '&quot;');
+            return `
+                <div class="member-card" onclick="openModal(this)"
+                    data-name="${member.name}"
+                    data-title="${member.title}"
+                    data-team="${teamName}"
+                    data-img="${member.img}"
+                    data-desc="${safeDesc}">
+                    <img src="${member.img}" alt="${member.name}" loading="lazy" />
+                    <div class="card-overlay"></div>
+                    <div class="card-info">
+                        <div class="card-name">${member.name}</div>
+                        <div class="card-title">${member.title}</div>
+                    </div>
+                    <div class="card-tap-hint">
+                        <svg viewBox="0 0 24 24" width="14" height="14">
+                            <path d="M12 4.5v15M4.5 12l7.5 7.5 7.5-7.5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>`;
+        }
+
+        function buildSection(team, index) {
+            const number = String(index + 1).padStart(2, '0');
+            const cards = team.members.map(m => buildCard(m, team.name)).join('');
+            return `
+                <section class="team-section">
+                    <div class="section-header">
+                        <div class="section-number">${number}</div>
+                        <div class="section-info">
+                            <div class="section-label">${team.label}</div>
+                            <div class="section-name">${team.name}</div>
+                        </div>
+                    </div>
+                    <div class="team-grid" id="${team.id}">${cards}</div>
+                </section>`;
+        }
+
+        function render() {
+            const totalMembers = teams.reduce((sum, t) => sum + t.members.length, 0);
+
+            document.getElementById('main').innerHTML = teams.map((team, i) =>
+                buildSection(team, i) + (i < teams.length - 1 ? '<div class="team-divider"></div>' : '')
+            ).join('');
+
+            document.getElementById('footerCount').innerHTML =
+                `<strong>${totalMembers} Members</strong> across ${teams.length} Teams`;
+        }
+
+        // ─────────────────────────────────────────────
+        //  MODAL
+        // ─────────────────────────────────────────────
+        function openModal(card) {
+            document.getElementById('modalImg').src = card.dataset.img;
+            document.getElementById('modalImg').alt = card.dataset.name;
+            document.getElementById('modalName').textContent = card.dataset.name;
+            document.getElementById('modalTitle').textContent = card.dataset.title;
+            document.getElementById('modalTeam').textContent = card.dataset.team;
+            document.getElementById('modalDesc').textContent = card.dataset.desc;
+            document.getElementById('modalBackdrop').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalBackdrop').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function handleBackdropClick(e) {
+            if (e.target === document.getElementById('modalBackdrop')) closeModal();
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        render();
+    </script>
+
+</body>
+
+</html>
